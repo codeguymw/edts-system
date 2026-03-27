@@ -19,8 +19,7 @@ class Defect extends Model
         'priority',
         'status',
         'user_id',      // The person reporting
-        'assigned_to',
-        'location_coords'
+        'assigned_to'
     ];
 
     // Link the defect back to the user who reported it
