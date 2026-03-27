@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Vite::prefetch(concurrency: 3);
 
-        // This tells Laravel to use 'https://' for all links when live on Namecheap
+        // This tells Laravel to use 'https://' 
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
