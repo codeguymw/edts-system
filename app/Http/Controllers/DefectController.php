@@ -28,7 +28,6 @@ class DefectController extends Controller
             'type'          => 'required|in:transformer,line,breaker,other',
             'priority'      => 'required|in:low,medium,high,critical',
             'description'   => 'required|string',
-            'priority'     => 'required|string|in:low,medium,high,critical',
         ]);
 
         // This creates the record linked to the logged-in user
