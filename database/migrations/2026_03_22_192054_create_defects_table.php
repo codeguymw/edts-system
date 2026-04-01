@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('type', ['transformer', 'line', 'breaker', 'other']);
             $table->text('description');
             $table->enum('priority', ['low', 'medium', 'high', 'critical'])->default('medium');
-            $table->enum('status', ['pending', 'assigned', 'in_progress', 'resolved', 'repaired', 'verified'])->default('pending');
+            $table->enum('status', ['pending', 'assigned', 'working', 'completed', 'in_progress', 'repaired', 'verified'])->default('pending');
             $table->string('location_coords')->nullable(); // For GPS if needed later
             $table->timestamps();
         });
