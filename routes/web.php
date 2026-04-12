@@ -8,6 +8,7 @@ use App\Http\Controllers\DefectController; // 1. Added this import
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Notifications\FaultAssigned;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -52,6 +53,15 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/defects/create', [DefectController::class, 'create'])->name('defects.create');
     Route::post('/defects', [DefectController::class, 'store'])->name('defects.store');
+
+    // --- NEW: Route to clear the red dot ---
+    Route::post('/notifications/read', function () {
+        $user = Auth::user();
+        if ($user) {
+            $user->unreadNotifications->markAsRead();
+        }
+        return back();
+    })->name('notifications.read');
 });
 
 Route::patch('/defects/{defect}/assign', function (Request $request, App\Models\Defect $defect) {
@@ -59,6 +69,11 @@ Route::patch('/defects/{defect}/assign', function (Request $request, App\Models\
         'assigned_to' => $request->assigned_to,
         'status' => 'assigned', // Lifecycle moves to 'assigned'
     ]);
+
+    $engineer = User::find($request->assigned_to);
+    if ($engineer) {
+        $engineer->notify(new FaultAssigned($defect));
+    }
 
     return back()->with('message', "Fault has been assigned and the Engineer has been notified.");
 })->name('defects.assign');
