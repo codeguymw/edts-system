@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('defects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Who reported it
-            $table->string('equipment_id'); // e.g., TX-45-CENTRAL
+            $table->string('equipment_id')->nullable(); // e.g., TX-45-CENTRAL
             $table->string('station_name'); // e.g., Kanengo Substation
             $table->enum('type', ['transformer', 'line', 'breaker', 'other']);
             $table->text('description');

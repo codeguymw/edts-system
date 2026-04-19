@@ -1,13 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
 
-export default function Create() {
+export default function Create({ auth, assets }: any) {
     const { data, setData, post, processing, errors } = useForm({
         equipment_id: '',
         station_name: '',
         type: 'transformer',
         priority: 'medium',
         description: '',
+        asset_id: '',
     });
 
     const submit = (e: React.FormEvent) => {
@@ -28,16 +29,21 @@ export default function Create() {
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block font-medium text-sm text-gray-700 dark:text-gray-300">Equipment ID</label>
-                                    <input 
-                                        type="text" 
-                                        className="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 rounded-md shadow-sm focus:border-[#00853f] focus:ring-[#00853f]"
-                                        value={data.equipment_id}
-                                        onChange={e => setData('equipment_id', e.target.value)}
-                                        placeholder="e.g. TX-45-CENTRAL"
-                                    />
-                                    {errors.equipment_id && <div className="text-red-500 text-xs mt-1">{errors.equipment_id}</div>}
-                                </div>
+                                <label className="block font-medium text-sm text-gray-700 dark:text-gray-300">Select Asset</label>
+                                <select 
+                                    className="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 rounded-md shadow-sm"
+                                    value={data.asset_id}
+                                    onChange={e => setData('asset_id', e.target.value)}
+                                >
+                                    <option value="">-- Select Registered Asset --</option>
+                                    {assets.map((asset: any) => (
+                                        <option key={asset.id} value={asset.id}>
+                                            {asset.asset_code} - {asset.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.asset_id && <div className="text-red-500 text-xs mt-1">{errors.asset_id}</div>}
+                            </div>
 
                                 <div>
                                     <label className="block font-medium text-sm text-gray-700 dark:text-gray-300">Station Name</label>
